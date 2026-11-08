@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://blade-and-timber.demo/sitemap.xml

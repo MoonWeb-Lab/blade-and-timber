@@ -1,7 +1,11 @@
 import React from 'react';
 import { Scissors, Phone, MapPin, Clock, ArrowUp, Sparkles } from 'lucide-react';
 
-export const Footer: React.FC = () => {
+interface FooterProps {
+  onOpenPrivacy: () => void;
+}
+
+export const Footer: React.FC<FooterProps> = ({ onOpenPrivacy }) => {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -107,9 +111,20 @@ export const Footer: React.FC = () => {
         <div className="pt-8 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between text-xs text-gray-400 gap-4">
           <p>© 2026 Blade & Timber Grooming Club. Все права защищены.</p>
           <div className="flex items-center gap-6 text-gray-400">
-            <a href="#" className="hover:text-white transition-colors">Политика конфиденциальности</a>
-            <a href="#" className="hover:text-white transition-colors">Договор оферты</a>
-            <a href="#" className="hover:text-white transition-colors">Правила посещения</a>
+            <button
+              onClick={onOpenPrivacy}
+              className="hover:text-white transition-colors text-xs text-left"
+            >
+              Политика конфиденциальности
+            </button>
+            <button
+              onClick={onOpenPrivacy}
+              className="hover:text-white transition-colors text-xs text-left"
+            >
+              Согласие на обработку данных
+            </button>
+            <span className="text-gray-600">|</span>
+            <span className="text-gray-400">Правила посещения клуба</span>
           </div>
         </div>
       </div>

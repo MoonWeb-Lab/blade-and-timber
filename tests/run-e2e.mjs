@@ -82,7 +82,7 @@ async function runTestSuite() {
   assert(await sliderSection.isVisible(), 'Transformation slider section is visible');
 
   // 1.6 Interactive Cosmetic Reservation (Apothecary)
-  console.log('\n  Testing Apothecary Reservation Toggle...');
+  console.log('\n  Testing Apothecary Reservation Toggle & Images...');
   const firstReserveBtn = page.locator('#shop button').first();
   const initialText = await firstReserveBtn.textContent();
   assert(initialText.includes('Отложить'), `Initial button label: "${initialText.trim()}"`);
@@ -90,6 +90,36 @@ async function runTestSuite() {
   await page.waitForTimeout(200);
   const reservedText = await firstReserveBtn.textContent();
   assert(reservedText.includes('Забронировано'), `Button updated state after click: "${reservedText.trim()}"`);
+
+  // Verify all 3 cosmetic product images loaded with naturalWidth > 0
+  const imagesCount = await page.locator('#shop img').count();
+  assert(imagesCount === 3, `Found 3 product images in Apothecary`);
+  const allImagesLoaded = await page.locator('#shop img').evaluateAll((imgs) =>
+    imgs.every((img) => img.complete && img.naturalWidth > 0)
+  );
+  assert(allImagesLoaded, 'All 3 cosmetic product images loaded successfully without 404 or ORB blocks');
+
+  // 1.7 Cookie Consent Banner & Privacy Policy Modal
+  console.log('\n  Testing Cookie Banner & Privacy Policy Modal...');
+  await page.waitForTimeout(1400); // Wait for banner slide-in
+  const cookieBanner = page.locator('text=Файлы Cookie & Приватность');
+  assert(await cookieBanner.isVisible(), 'Cookie consent banner appeared smoothly');
+
+  // Open Privacy Policy from banner
+  await page.click('button:has-text("Политике конфиденциальности")');
+  await page.waitForTimeout(300);
+  const privacyModal = page.locator('div.fixed h3:has-text("Политика конфиденциальности")');
+  assert(await privacyModal.isVisible(), 'Privacy Policy Modal opened via Cookie Banner link');
+
+  // Close Privacy Policy
+  await page.click('button:has-text("Понятно")');
+  await page.waitForTimeout(300);
+  assert(!(await privacyModal.isVisible()), 'Privacy Policy Modal closed');
+
+  // Accept cookies
+  await page.click('button:has-text("Принять все")');
+  await page.waitForTimeout(300);
+  assert(!(await cookieBanner.isVisible()), 'Cookie banner dismissed after accepting');
 
   // 1.7 End-to-End Online Booking Wizard Flow
   console.log('\n  Testing Complete 5-Step Online Booking Wizard Flow...');

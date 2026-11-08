@@ -163,7 +163,7 @@ export const PRODUCTS: GroomingProduct[] = [
     category: 'Уход',
     price: 1400,
     volume: '120 г',
-    image: 'https://images.unsplash.com/photo-1608248597359-009187ec98fc?auto=format&fit=crop&w=600&q=80',
+    image: 'https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?auto=format&fit=crop&w=600&q=80',
     rating: 4.8,
   },
 ];

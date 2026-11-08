@@ -10,11 +10,14 @@ import { ReviewsSection } from './components/ReviewsSection';
 import { ContactsSection } from './components/ContactsSection';
 import { Footer } from './components/Footer';
 import { BookingModal } from './components/BookingModal';
+import { PrivacyPolicyModal } from './components/PrivacyPolicyModal';
+import { CookieBanner } from './components/CookieBanner';
 import { Service, Master } from './types';
 import { Calendar } from 'lucide-react';
 
 export const App: React.FC = () => {
   const [isBookingOpen, setIsBookingOpen] = useState(false);
+  const [isPrivacyOpen, setIsPrivacyOpen] = useState(false);
   const [selectedService, setSelectedService] = useState<Service | null>(null);
   const [selectedMaster, setSelectedMaster] = useState<Master | null>(null);
   const [showFloatingCta, setShowFloatingCta] = useState(false);
@@ -67,7 +70,7 @@ export const App: React.FC = () => {
       </main>
 
       {/* Footer */}
-      <Footer />
+      <Footer onOpenPrivacy={() => setIsPrivacyOpen(true)} />
 
       {/* Interactive Booking Wizard Modal */}
       <BookingModal
@@ -76,6 +79,15 @@ export const App: React.FC = () => {
         preselectedService={selectedService}
         preselectedMaster={selectedMaster}
       />
+
+      {/* Privacy Policy Modal */}
+      <PrivacyPolicyModal
+        isOpen={isPrivacyOpen}
+        onClose={() => setIsPrivacyOpen(false)}
+      />
+
+      {/* Cookie Consent Banner */}
+      <CookieBanner onOpenPrivacy={() => setIsPrivacyOpen(true)} />
 
       {/* Mobile Floating Action Button (Sticky CTA) */}
       <div
